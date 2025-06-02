@@ -1,0 +1,19 @@
+services:
+  web:
+    image: nginx:alpine
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+    restart: unless-stopped
+    networks:
+      - traefik-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.landingpage.rule=Host(`landing.local`)"
+      - "traefik.http.routers.landingpage.entrypoints=websecure"
+      - "traefik.http.routers.landingpage.tls=true"
+      - "traefik.http.services.landingpage.loadbalancer.server.port=80"
+
+networks:
+  traefik-network:
+    external: true
+    name: traefik-network

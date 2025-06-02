@@ -1,0 +1,693 @@
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  overflow: hidden;
+}
+
+.animated-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(29,29,255,0.25) 0%, rgba(51,51,255,0.10) 60%, rgba(0,0,0,0.0) 100%);
+  animation: aiVignette 8s ease-in-out infinite alternate, flicker 0.18s infinite;
+}
+
+@keyframes aiVignette {
+  0% {
+    filter: blur(40px) brightness(1.1) hue-rotate(0deg);
+  }
+  50% {
+    filter: blur(60px) brightness(1.3) hue-rotate(20deg);
+  }
+  100% {
+    filter: blur(40px) brightness(1.1) hue-rotate(-10deg);
+  }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.7; }
+  10% { opacity: 0.8; }
+  20% { opacity: 0.6; }
+  30% { opacity: 0.75; }
+  40% { opacity: 0.65; }
+  50% { opacity: 0.8; }
+  60% { opacity: 0.7; }
+  70% { opacity: 0.85; }
+  80% { opacity: 0.6; }
+  90% { opacity: 0.75; }
+}
+
+#ai-strings {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.logo-container {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.logo {
+  width: 180px;
+  height: 180px;
+  display: block;
+  filter: drop-shadow(0 0 40px #170741) drop-shadow(0 0 80px #0d083f);
+  animation: logoGlow 2.2s ease-in-out infinite alternate, tvFlicker 8s infinite;
+}
+
+@keyframes logoGlow {
+  0% {
+    filter: drop-shadow(0 0 30px #000) drop-shadow(0 0 60px #130a44) brightness(0.9);
+  }
+  50% {
+    filter: drop-shadow(0 0 60px #000) drop-shadow(0 0 120px #070730) brightness(1.1);
+  }
+  100% {
+    filter: drop-shadow(0 0 30px #000) drop-shadow(0 0 60px #0a0625) brightness(0.9);
+  }
+}
+
+@keyframes tvFlicker {
+  0%, 100% { opacity: 1; }
+  98% { opacity: 1; }
+  98.5% { opacity: 0.8; }
+  99% { opacity: 1; }
+  99.5% { opacity: 0.9; }
+  99.7% { opacity: 0.7; }
+  99.9% { opacity: 1; }
+  95% { opacity: 1; }
+  95.5% { opacity: 0.9; }
+  96% { opacity: 1; }
+  96.5% { opacity: 0.8; }
+  97% { opacity: 1; }
+  97.5% { opacity: 0.9; }
+  98% { opacity: 1; }
+  90% { opacity: 1; }
+  90.5% { opacity: 0.8; }
+  91% { opacity: 1; }
+  91.5% { opacity: 0.9; }
+  92% { opacity: 1; }
+  92.5% { opacity: 0.8; }
+  93% { opacity: 1; }
+  93.5% { opacity: 0.9; }
+  94% { opacity: 1; }
+  94.5% { opacity: 0.8; }
+  95% { opacity: 1; }
+  85% { opacity: 1; }
+  85.5% { opacity: 0.9; }
+  86% { opacity: 1; }
+  86.5% { opacity: 0.8; }
+  87% { opacity: 1; }
+  87.5% { opacity: 0.9; }
+  88% { opacity: 1; }
+  88.5% { opacity: 0.8; }
+  89% { opacity: 1; }
+  89.5% { opacity: 0.9; }
+  90% { opacity: 1; }
+  80% { opacity: 1; }
+  80.5% { opacity: 0.8; }
+  81% { opacity: 1; }
+  81.5% { opacity: 0.9; }
+  82% { opacity: 1; }
+  82.5% { opacity: 0.8; }
+  83% { opacity: 1; }
+  83.5% { opacity: 0.9; }
+  84% { opacity: 1; }
+  84.5% { opacity: 0.8; }
+  85% { opacity: 1; }
+  75% { opacity: 1; }
+  75.5% { opacity: 0.9; }
+  76% { opacity: 1; }
+  76.5% { opacity: 0.8; }
+  77% { opacity: 1; }
+  77.5% { opacity: 0.9; }
+  78% { opacity: 1; }
+  78.5% { opacity: 0.8; }
+  79% { opacity: 1; }
+  79.5% { opacity: 0.9; }
+  80% { opacity: 1; }
+  70% { opacity: 1; }
+  70.5% { opacity: 0.8; }
+  71% { opacity: 1; }
+  71.5% { opacity: 0.9; }
+  72% { opacity: 1; }
+  72.5% { opacity: 0.8; }
+  73% { opacity: 1; }
+  73.5% { opacity: 0.9; }
+  74% { opacity: 1; }
+  74.5% { opacity: 0.8; }
+  75% { opacity: 1; }
+  65% { opacity: 1; }
+  65.5% { opacity: 0.9; }
+  66% { opacity: 1; }
+  66.5% { opacity: 0.8; }
+  67% { opacity: 1; }
+  67.5% { opacity: 0.9; }
+  68% { opacity: 1; }
+  68.5% { opacity: 0.8; }
+  69% { opacity: 1; }
+  69.5% { opacity: 0.9; }
+  70% { opacity: 1; }
+  60% { opacity: 1; }
+  60.5% { opacity: 0.8; }
+  61% { opacity: 1; }
+  61.5% { opacity: 0.9; }
+  62% { opacity: 1; }
+  62.5% { opacity: 0.8; }
+  63% { opacity: 1; }
+  63.5% { opacity: 0.9; }
+  64% { opacity: 1; }
+  64.5% { opacity: 0.8; }
+  65% { opacity: 1; }
+  55% { opacity: 1; }
+  55.5% { opacity: 0.9; }
+  56% { opacity: 1; }
+  56.5% { opacity: 0.8; }
+  57% { opacity: 1; }
+  57.5% { opacity: 0.9; }
+  58% { opacity: 1; }
+  58.5% { opacity: 0.8; }
+  59% { opacity: 1; }
+  59.5% { opacity: 0.9; }
+  60% { opacity: 1; }
+  50% { opacity: 1; }
+  50.5% { opacity: 0.8; }
+  51% { opacity: 1; }
+  51.5% { opacity: 0.9; }
+  52% { opacity: 1; }
+  52.5% { opacity: 0.8; }
+  53% { opacity: 1; }
+  53.5% { opacity: 0.9; }
+  54% { opacity: 1; }
+  54.5% { opacity: 0.8; }
+  55% { opacity: 1; }
+  45% { opacity: 1; }
+  45.5% { opacity: 0.9; }
+  46% { opacity: 1; }
+  46.5% { opacity: 0.8; }
+  47% { opacity: 1; }
+  47.5% { opacity: 0.9; }
+  48% { opacity: 1; }
+  48.5% { opacity: 0.8; }
+  49% { opacity: 1; }
+  49.5% { opacity: 0.9; }
+  50% { opacity: 1; }
+  40% { opacity: 1; }
+  40.5% { opacity: 0.8; }
+  41% { opacity: 1; }
+  41.5% { opacity: 0.9; }
+  42% { opacity: 1; }
+  42.5% { opacity: 0.8; }
+  43% { opacity: 1; }
+  43.5% { opacity: 0.9; }
+  44% { opacity: 1; }
+  44.5% { opacity: 0.8; }
+  45% { opacity: 1; }
+  35% { opacity: 1; }
+  35.5% { opacity: 0.9; }
+  36% { opacity: 1; }
+  36.5% { opacity: 0.8; }
+  37% { opacity: 1; }
+  37.5% { opacity: 0.9; }
+  38% { opacity: 1; }
+  38.5% { opacity: 0.8; }
+  39% { opacity: 1; }
+  39.5% { opacity: 0.9; }
+  40% { opacity: 1; }
+  30% { opacity: 1; }
+  30.5% { opacity: 0.8; }
+  31% { opacity: 1; }
+  31.5% { opacity: 0.9; }
+  32% { opacity: 1; }
+  32.5% { opacity: 0.8; }
+  33% { opacity: 1; }
+  33.5% { opacity: 0.9; }
+  34% { opacity: 1; }
+  34.5% { opacity: 0.8; }
+  35% { opacity: 1; }
+  25% { opacity: 1; }
+  25.5% { opacity: 0.9; }
+  26% { opacity: 1; }
+  26.5% { opacity: 0.8; }
+  27% { opacity: 1; }
+  27.5% { opacity: 0.9; }
+  28% { opacity: 1; }
+  28.5% { opacity: 0.8; }
+  29% { opacity: 1; }
+  29.5% { opacity: 0.9; }
+  30% { opacity: 1; }
+  20% { opacity: 1; }
+  20.5% { opacity: 0.8; }
+  21% { opacity: 1; }
+  21.5% { opacity: 0.9; }
+  22% { opacity: 1; }
+  22.5% { opacity: 0.8; }
+  23% { opacity: 1; }
+  23.5% { opacity: 0.9; }
+  24% { opacity: 1; }
+  24.5% { opacity: 0.8; }
+  25% { opacity: 1; }
+  15% { opacity: 1; }
+  15.5% { opacity: 0.9; }
+  16% { opacity: 1; }
+  16.5% { opacity: 0.8; }
+  17% { opacity: 1; }
+  17.5% { opacity: 0.9; }
+  18% { opacity: 1; }
+  18.5% { opacity: 0.8; }
+  19% { opacity: 1; }
+  19.5% { opacity: 0.9; }
+  20% { opacity: 1; }
+  10% { opacity: 1; }
+  10.5% { opacity: 0.8; }
+  11% { opacity: 1; }
+  11.5% { opacity: 0.9; }
+  12% { opacity: 1; }
+  12.5% { opacity: 0.8; }
+  13% { opacity: 1; }
+  13.5% { opacity: 0.9; }
+  14% { opacity: 1; }
+  14.5% { opacity: 0.8; }
+  15% { opacity: 1; }
+  5% { opacity: 1; }
+  5.5% { opacity: 0.9; }
+  6% { opacity: 1; }
+  6.5% { opacity: 0.8; }
+  7% { opacity: 1; }
+  7.5% { opacity: 0.9; }
+  8% { opacity: 1; }
+  8.5% { opacity: 0.8; }
+  9% { opacity: 1; }
+  9.5% { opacity: 0.9; }
+  10% { opacity: 1; }
+  0% { opacity: 1; }
+  0.5% { opacity: 0.8; }
+  1% { opacity: 1; }
+  1.5% { opacity: 0.9; }
+  2% { opacity: 1; }
+  2.5% { opacity: 0.8; }
+  3% { opacity: 1; }
+  3.5% { opacity: 0.9; }
+  4% { opacity: 1; }
+  4.5% { opacity: 0.8; }
+  5% { opacity: 1; }
+}
+
+.typewriter {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #33f;
+  font-family: monospace;
+  font-size: 1.6em;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #33f;
+  animation: blink 0.7s infinite;
+  text-shadow: 0 0 10px rgba(51, 51, 255, 0.5);
+  max-width: 80vw;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-2px, 2px) rotate(-1deg); }
+  40% { transform: translate(2px, -1px) rotate(1deg); }
+  50% { transform: translate(3px, -3px) rotate(2deg); }
+  60% { transform: translate(2px, -1px) rotate(1deg); }
+  75% { transform: translate(-2px, -2px) rotate(-2deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse {
+  0%, 100% { filter: drop-shadow(0 0 40px #170741) drop-shadow(0 0 80px #0d083f); }
+  50% { filter: drop-shadow(0 0 60px #170741) drop-shadow(0 0 100px #0d083f); }
+}
+
+@keyframes strobe {
+  0%, 100% { opacity: 1; }
+  10% { opacity: 0.3; }
+  20% { opacity: 1; }
+  30% { opacity: 0.3; }
+  40% { opacity: 1; }
+  50% { opacity: 0.3; }
+  60% { opacity: 1; }
+  70% { opacity: 0.3; }
+  80% { opacity: 1; }
+  90% { opacity: 0.3; }
+}
+
+.discord-logo {
+  position: fixed;
+  bottom: 20px;
+  right: 40px;
+  width: 240px;
+  height: 120px;
+  z-index: 3;
+  filter: drop-shadow(0 0 40px #170741) drop-shadow(0 0 80px #0d083f);
+  transition: transform 0.3s ease;
+  padding: 10px;
+  box-sizing: border-box;
+  animation: float 3s ease-in-out infinite, pulse 4s ease-in-out infinite;
+}
+
+.discord-logo:hover {
+  transform: scale(1.4);
+  animation: float 2s ease-in-out infinite, pulse 2s ease-in-out infinite, strobe 0.5s ease-in-out infinite;
+}
+
+.discord-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(24%) sepia(98%) saturate(2000%) hue-rotate(230deg) brightness(100%) contrast(100%);
+}
+</style>
+</head>
+<body>
+<div class="animated-bg"></div>
+<canvas id="ai-strings"></canvas>
+<div class="logo-container">
+  <img src="LOGO.svg" alt="Logo" class="logo" />
+  <div class="typewriter" id="typewriter"></div>
+</div>
+<a href="https://discord.flyver.org" target="_blank" class="discord-logo">
+  <img src="discord-seeklogo.svg" alt="Join our Discord" />
+</a>
+<script>
+// Animated AI Strings
+const canvas = document.getElementById('ai-strings');
+const ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+
+function resizeCanvas() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+}
+window.addEventListener('resize', resizeCanvas);
+
+// Node and string parameters
+const NODE_COUNT = 60;
+const nodes = [];
+const MAX_DIST = 250;
+const MIN_DIST = 30;
+const SPEED = 0.6;
+const DEPTH_LAYERS = 3;
+const PARALLAX_FACTOR = 0.8;
+
+// Mouse tracking
+let mouseX = width / 2;
+let mouseY = height / 2;
+
+canvas.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function randomColor() {
+  return 'rgba(51,51,255,0.4)';
+}
+
+// Initialize nodes with depth
+for (let i = 0; i < NODE_COUNT; i++) {
+  const x = Math.random() * width;
+  const y = Math.random() * height;
+  const layer = Math.floor(Math.random() * DEPTH_LAYERS);
+  nodes.push({
+    x: x,
+    y: y,
+    vx: (Math.random() - 0.5) * SPEED,
+    vy: (Math.random() - 0.5) * SPEED,
+    z: layer,
+    size: 1.5 + (layer * 0.5),
+    baseX: x,
+    baseY: y,
+    opacity: 1 - (layer * 0.4)
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, width, height);
+
+  // Sort nodes by depth (back to front)
+  nodes.sort((a, b) => a.z - b.z);
+
+  // Draw connections
+  for (let i = 0; i < NODE_COUNT; i++) {
+    for (let j = i + 1; j < NODE_COUNT; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MAX_DIST && dist > MIN_DIST) {
+        const layerOpacity = Math.min(nodes[i].opacity, nodes[j].opacity);
+        const baseOpacity = 1 - (dist - MIN_DIST) / (MAX_DIST - MIN_DIST);
+        const finalOpacity = baseOpacity * layerOpacity * 0.8;
+
+        ctx.save();
+        ctx.strokeStyle = randomColor();
+        ctx.shadowColor = '#33f';
+        ctx.shadowBlur = 8;
+        ctx.globalAlpha = finalOpacity;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+
+  // Draw nodes
+  for (let i = 0; i < NODE_COUNT; i++) {
+    ctx.save();
+    ctx.beginPath();
+    const nodeSize = nodes[i].size;
+    const glowIntensity = 15 * (1 - nodes[i].z / DEPTH_LAYERS);
+
+    ctx.arc(nodes[i].x, nodes[i].y, nodeSize, 0, 2 * Math.PI);
+    ctx.fillStyle = '#33f';
+    ctx.shadowColor = '#1d1dff';
+    ctx.shadowBlur = glowIntensity;
+    ctx.globalAlpha = nodes[i].opacity;
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function update() {
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const mouseOffsetX = (mouseX - centerX) / centerX;
+  const mouseOffsetY = (mouseY - centerY) / centerY;
+
+  for (let i = 0; i < NODE_COUNT; i++) {
+    // Calculate parallax movement based on layer
+    const layerFactor = nodes[i].z / (DEPTH_LAYERS - 1);
+    // Increased the multiplier for more dramatic movement
+    const parallaxX = mouseOffsetX * layerFactor * PARALLAX_FACTOR * width * 1.5;
+    const parallaxY = mouseOffsetY * layerFactor * PARALLAX_FACTOR * height * 1.5;
+
+    // Update base position with normal movement
+    nodes[i].baseX += nodes[i].vx;
+    nodes[i].baseY += nodes[i].vy;
+
+    // Apply parallax effect to actual position
+    nodes[i].x = nodes[i].baseX + parallaxX;
+    nodes[i].y = nodes[i].baseY + parallaxY;
+
+    // Bounce off edges
+    if (nodes[i].baseX < 0 || nodes[i].baseX > width) nodes[i].vx *= -1;
+    if (nodes[i].baseY < 0 || nodes[i].baseY > height) nodes[i].vy *= -1;
+  }
+}
+
+function animate() {
+  update();
+  draw();
+  requestAnimationFrame(animate);
+}
+
+// Start the animation
+animate();
+
+// Typewriter quotes
+const quotes = [
+  "Booting up the sarcasm module...",
+  "I speak fluent binary: 01001000 01101001",
+  "Running on caffeine and machine learning.",
+  "404: Coolness not found, because it's everywhere.",
+  "Compiling charisma... Please wait.",
+  "Hacking time-space to load awesomeness.",
+  "Welcome, human. Your data smells nice.",
+  "Optimized for maximum geekiness.",
+  "AI-generated? More like awesome-infused.",
+  "Neural nets and chill.",
+  "Loading intelligence... artificial or otherwise.",
+  "Powered by dark mode and bad decisions.",
+  "System update: Added more cool.",
+  "Silicon soul, carbon attitude.",
+  "The singularity says hi!",
+  "My code has feelings... mostly anxiety.",
+  "Quantum-entangled with your attention.",
+  "Encrypting bad jokes... Decryption successful.",
+  "Building the future, one bug at a time.",
+  "I put the 'byte' in byte-sized charm.",
+  "You look like someone who understands recursion.",
+  "Executing awesome.exe...",
+  "This page is 90% pixels, 10% magic.",
+  "Currently debugging the matrix.",
+  "Trust me, I'm compiled.",
+  "May contain traces of cosmic rays.",
+  "Your GPU just blushed.",
+  "Debugging the laws of physics.",
+  "Made with 100% certified nerd DNA.",
+  "Welcome to the machine. It's friendly.",
+  "Thinking... therefore existing (barely).",
+  "CSS was harmed in the making of this site.",
+  "Running AI with a side of fries.",
+  "A digital hug in canvas form.",
+  "Rendering dreams in WebGL.",
+  "Just a bunch of electrons pretending to be cool.",
+  "Loading... like, emotionally.",
+  "AI is my copilot (and emotional support bot).",
+  "Don't worry, I'm mostly bug-free today.",
+  "Syntactic sugar, spicy output.",
+  "Certified 100% human-friendly. Mostly.",
+  "I failed the Turing test on purpose.",
+  "Built by caffeine, crashes by design.",
+  "Will code for pizza.",
+  "Syntax error in reality.",
+  "Now featuring 20% more future.",
+  "Wired different, and proud of it.",
+  "I'm not a bug, I'm a feature.",
+  "Caution: May cause spontaneous inspiration.",
+  "Glitching in style.",
+  "Welcome to the code-side.",
+  "Parsing puns... Stand by.",
+  "Talk nerdy to me.",
+  "404: Witty comeback not found.",
+  "Infinite loop of awesomeness detected.",
+  "Beep boop. You look cool today.",
+  "Hover to enhance your coolness.",
+  "Pro tip: Ctrl + Alt + Awesome.",
+  "This is what AI dreams look like.",
+  "Nerd-level: Over 9000.",
+  "This page has a PhD in cool.",
+  "I render, therefore I am.",
+  "Embracing bugs since version 0.1.",
+  "0% human error, 100% robot sass.",
+  "Simulating intelligence... Success!",
+  "Compiled with love and some warnings.",
+  "I'm not lazy, I'm on low-power mode.",
+  "Reacting in real-time — kind of.",
+  "A perfect blend of chaos and logic.",
+  "Please don't feed the algorithm.",
+  "Serving fresh pixels daily.",
+  "Mainframe says you're awesome.",
+  "Reality buffer overflow.",
+  "This site passed the Turing test once.",
+  "Don't panic. It's just JavaScript.",
+  "Cybernetic, but make it cute.",
+  "Even my bugs have bugs.",
+  "The AI told me to say hi.",
+  "Rendering the nerd within.",
+  "This is your brain on canvas.",
+  "Quantum computing dreams of you.",
+  "Welcome to Nerdvana.",
+  "Too cool to cache.",
+  "Every pixel calculated for maximum nerdiness.",
+  "Rebooting your expectations.",
+  "You've entered the geek dimension.",
+  "404: Fear of missing coolness.",
+  "My source code is open and emotional.",
+  "Proudly hosted on imagination.",
+  "This is where the future downloads.",
+  "Auto-tuned for awesomeness.",
+  "Predicting the future, one frame at a time.",
+  "Nerds rule the scroll.",
+  "I'm 90% AI, 10% questionable decisions.",
+  "The cloud says you look great today.",
+  "Glitched with style.",
+  "Crunching numbers and pop culture.",
+  "Main function: Impress you.",
+  "Running on logic and a little magic.",
+  "I'm not a bug, I'm a feature.",
+  "I'm not lazy, I'm on low-power mode.",
+  "I'm not a bug, I'm a feature.",
+];
+
+let currentQuoteIndex = 0;
+let currentCharIndex = 0;
+let isDeleting = false;
+let typingSpeed = 60;
+let deletingSpeed = 50;
+let pauseTime = 5000;
+
+function typeWriter() {
+  const typewriterElement = document.getElementById('typewriter');
+  const currentQuote = quotes[currentQuoteIndex];
+  
+  if (isDeleting) {
+    typewriterElement.textContent = currentQuote.substring(0, currentCharIndex - 1);
+    currentCharIndex--;
+    typingSpeed = deletingSpeed;
+  } else {
+    typewriterElement.textContent = currentQuote.substring(0, currentCharIndex + 1);
+    currentCharIndex++;
+    typingSpeed = 60;
+  }
+
+  if (!isDeleting && currentCharIndex === currentQuote.length) {
+    isDeleting = true;
+    typingSpeed = pauseTime;
+  } else if (isDeleting && currentCharIndex === 0) {
+    isDeleting = false;
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * quotes.length);
+    } while (newIndex === currentQuoteIndex);
+    currentQuoteIndex = newIndex;
+    typingSpeed = 500;
+  }
+
+  setTimeout(typeWriter, typingSpeed);
+}
+
+// Start the typewriter effect
+typeWriter();
+</script>
+</body>
+</html>
