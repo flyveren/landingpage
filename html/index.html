@@ -3,12 +3,9 @@
 <style>
 body {
   margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #000;
-  overflow: hidden;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 .animated-bg {
@@ -56,20 +53,31 @@ body {
   pointer-events: none;
 }
 
-.logo-container {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.hero-section {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
 }
 
 .logo {
   width: 180px;
   height: 180px;
   display: block;
+  margin: 0 auto;
   filter: drop-shadow(0 0 40px #170741) drop-shadow(0 0 80px #0d083f);
   animation: logoGlow 2.2s ease-in-out infinite alternate, tvFlicker 8s infinite;
 }
@@ -313,10 +321,8 @@ body {
 }
 
 .typewriter {
-  position: absolute;
-  bottom: 30%;
-  left: 50%;
-  transform: translateX(-50%);
+  position: static;
+  margin-top: 24px;
   color: #33f;
   font-family: monospace;
   font-size: 1.6em;
@@ -390,18 +396,228 @@ body {
   object-fit: contain;
   filter: brightness(0) saturate(100%) invert(24%) sepia(98%) saturate(2000%) hue-rotate(230deg) brightness(100%) contrast(100%);
 }
+
+.scroll-arrow {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  opacity: 0.3;
+  cursor: pointer;
+  z-index: 3;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-arrow:hover {
+  opacity: 0.6;
+}
+
+.scroll-arrow svg {
+  width: 100%;
+  height: 100%;
+  fill: #33f;
+}
+
+.next-section {
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-family: monospace;
+  font-size: 2em;
+  text-shadow: 0 0 10px rgba(51, 51, 255, 0.5);
+  padding: 30px 0;
+  position: relative;
+  z-index: 3;
+}
+
+.dev-intro {
+  font-size: 0.80em;
+  margin-bottom: 40px;
+  max-width: 500px;
+  text-align: center;
+  color: #000;
+  text-shadow: 0 0 10px rgba(51, 51, 255, 0.5);
+}
+
+.intro-line {
+  opacity: 0;
+  margin-bottom: 25px;
+  transform: translateX(60px);
+  transition: none;
+  will-change: opacity, transform;
+}
+.intro-line.even {
+  transform: translateX(-60px);
+}
+
+.skills-lists {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.skill-list {
+  background: rgba(20, 20, 60, 0.5);
+  border-radius: 16px;
+  padding: 24px 32px;
+  min-width: 180px;
+  box-shadow: 0 0 16px #1d1dff22;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.7s cubic-bezier(.77,0,.18,1), transform 0.7s cubic-bezier(.77,0,.18,1);
+  will-change: opacity, transform;
+}
+.skill-list.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.skill-list.out {
+  opacity: 0;
+  transform: translateY(80px);
+}
+.skill-list:nth-child(1) { transition-delay: 0.1s; }
+.skill-list:nth-child(2) { transition-delay: 0.3s; }
+.skill-list:nth-child(3) { transition-delay: 0.5s; }
+
+.skill-list h3 {
+  color: #33f;
+  font-size: 1.1em;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.skill-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #b3b3ff;
+  font-size: 1em;
+}
+
+.skill-list li {
+  margin-bottom: 8px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.skill-icon {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  display: inline-block;
+  filter: drop-shadow(0 0 2px #1d1dff44);
+}
+.skill-icon.sql {
+  filter: brightness(0) !important;
+}
+
+@media (max-width: 900px) {
+  .skills-lists {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .next-section {
+    font-size: 1.2em;
+    padding: 20px 0;
+  }
+}
+
+.bg-transition {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background: #000;
+  transition: background 0.2s linear;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
 </style>
 </head>
 <body>
+<div class="bg-transition"></div>
 <div class="animated-bg"></div>
 <canvas id="ai-strings"></canvas>
-<div class="logo-container">
-  <img src="LOGO.svg" alt="Logo" class="logo" />
-  <div class="typewriter" id="typewriter"></div>
-</div>
+
+<section class="hero-section">
+  <div class="logo-container">
+    <img src="LOGO.svg" alt="Logo" class="logo" />
+    <div class="typewriter" id="typewriter"></div>
+  </div>
+  <div class="scroll-arrow" onclick="scrollToNext()">
+    <svg viewBox="0 0 24 24">
+      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+    </svg>
+  </div>
+</section>
+<section class="next-section">
+  <div class="dev-intro">
+    <div class="intro-line">Hi, I'm [Your Name], a passionate developer with experience across multiple languages, frameworks, and tools.</div>
+    <div class="intro-line">I love building scalable solutions and automating workflows.</div>
+    <div class="intro-line">Here's a quick overview of my technical toolkit:</div>
+  </div>
+  <div class="skills-lists">
+    <div class="skill-list">
+      <h3 class="skill-list-title">Languages</h3>
+      <ul>
+        <li><img src="icons/python.svg" alt="Python" class="skill-icon" /> Python</li>
+        <li><img src="icons/go.svg" alt="Go" class="skill-icon" /> Go</li>
+        <li><img src="icons/javascript.svg" alt="JavaScript" class="skill-icon" /> JavaScript</li>
+        <li><img src="icons/php.svg" alt="PHP" class="skill-icon" /> PHP</li>
+        <li><img src="icons/html5.svg" alt="HTML" class="skill-icon" /> HTML</li>
+        <li><img src="icons/css3.svg" alt="CSS" class="skill-icon" /> CSS</li>
+        <li><img src="icons/mysql.svg" alt="SQL" class="skill-icon sql" /> SQL</li>
+        <li><img src="icons/bash.svg" alt="Bash" class="skill-icon" />Bash</li>
+      </ul>
+    </div>
+    <div class="skill-list">
+      <h3 class="skill-list-title">Frameworks</h3>
+      <ul>
+        <li><img src="icons/reactjs.svg" alt="React" class="skill-icon" /> React</li>
+        <li><img src="icons/expressjs-dark.svg" alt="Express.js" class="skill-icon" /> Express.js</li>
+        <li><img src="icons/django.svg" alt="Django" class="skill-icon" /> Django</li>
+        <li><img src="icons/flask-dark.svg" alt="Flask" class="skill-icon" /> Flask</li>
+      </ul>
+    </div>
+    <div class="skill-list">
+      <h3 class="skill-list-title">Tools</h3>
+      <ul>
+        <li><img src="icons/docker.svg" alt="Docker" class="skill-icon" /> Docker</li>
+        <li><img src="icons/github-dark.svg" alt="GitHub" class="skill-icon" /> GitHub</li>
+        <li><img src="icons/kubernetes.svg" alt="Kubernetes" class="skill-icon" /> Kubernetes</li>
+        <li><img src="icons/linux.svg" alt="Linux" class="skill-icon" /> Linux</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <a href="https://discord.flyver.org" target="_blank" class="discord-logo">
   <img src="discord-seeklogo.svg" alt="Join our Discord" />
 </a>
+
 <script>
 // Animated AI Strings
 const canvas = document.getElementById('ai-strings');
@@ -688,6 +904,100 @@ function typeWriter() {
 
 // Start the typewriter effect
 typeWriter();
+
+// Add scroll functionality
+function scrollToNext() {
+  const nextSection = document.querySelector('.next-section');
+  nextSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Animate .bg-transition color on scroll
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const windowH = window.innerHeight;
+  let progress = Math.min(scrollY / windowH, 1);
+  // Interpolate between black and #33f
+  const startColor = [0, 0, 0];
+  const endColor = [51, 51, 255];
+  const currentColor = startColor.map((start, i) =>
+    Math.round(start + (endColor[i] - start) * progress)
+  );
+  document.querySelector('.bg-transition').style.background = `rgb(${currentColor.join(',')})`;
+});
+
+// Scroll-triggered animation for dev-intro lines and skill lists
+function animateOnScroll() {
+  // Remove IntersectionObserver for intro lines
+  const introLines = document.querySelectorAll('.intro-line');
+  introLines.forEach((line, i) => {
+    line.classList.toggle('even', i % 2 === 1);
+  });
+
+  // Skill lists: keep observer logic
+  const skillLists = document.querySelectorAll('.skill-list');
+  const listObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        entry.target.classList.remove('out');
+      } else {
+        entry.target.classList.remove('visible');
+        entry.target.classList.add('out');
+      }
+    });
+  }, { threshold: [0.2, 0.01] });
+  skillLists.forEach(list => {
+    listObserver.observe(list);
+    if (isElementInViewport(list, 0.2)) {
+      list.classList.add('visible');
+      list.classList.remove('out');
+    }
+  });
+
+  // Scroll-scrubbed animation for intro lines
+  window.addEventListener('scroll', () => {
+    const section = document.querySelector('.next-section');
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const sectionHeight = rect.height;
+    // Progress: 0 when section just enters viewport, 1 when section's bottom reaches bottom of viewport
+    let progress = (windowHeight - rect.top) / (sectionHeight * 0.30 + windowHeight);
+    progress = Math.max(0, Math.min(1, progress));
+    // For each line, stagger the progress
+    introLines.forEach((line, i) => {
+      const lineStagger = i * 0.08;
+      let lineProgress = Math.max(0, Math.min(1, (progress - lineStagger) / (0.7 - lineStagger)));
+      const fromX = (i % 2 === 0) ? 600 : -600;
+      // Opacity fades in almost immediately and tweens slower
+      line.style.opacity = Math.max(0, (lineProgress - 0.01) / 0.7);
+      line.style.transform = `translateX(${fromX * (1 - lineProgress)}px)`;
+    });
+    // Scroll-scrubbed animation for skill lists
+    skillLists.forEach((list, i) => {
+      const listStagger = i * 0.10; // Earlier, slower
+      let listProgress = Math.max(0, Math.min(1, (progress - listStagger) / (1 - listStagger)));
+      const fromY = 120;
+      // Opacity fades in much earlier and slower
+      list.style.opacity = Math.max(0, (listProgress - 0.1) / 0.9);
+      list.style.transform = `translateY(${fromY * (1 - listProgress)}px)`;
+    });
+  });
+  // Trigger once on load
+  window.dispatchEvent(new Event('scroll'));
+}
+
+// Helper: check if element is in viewport by threshold
+function isElementInViewport(el, threshold) {
+  const rect = el.getBoundingClientRect();
+  const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+  const elemTop = rect.top;
+  const elemBottom = rect.bottom;
+  const visibleHeight = Math.min(elemBottom, windowHeight) - Math.max(elemTop, 0);
+  const elemHeight = rect.height;
+  return (visibleHeight / elemHeight) >= threshold;
+}
+
+document.addEventListener('DOMContentLoaded', animateOnScroll);
 </script>
 </body>
 </html>
