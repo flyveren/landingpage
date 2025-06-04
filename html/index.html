@@ -446,7 +446,7 @@ body {
 .third-section {
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -454,10 +454,12 @@ body {
   color: #33f;
   font-family: monospace;
   font-size: 2em;
-  text-shadow: 0 0 10px rgba(51, 51, 255, 0.5);
   padding: 30px 0;
   position: relative;
   z-index: 3;
+}
+.third-section-text {
+  text-align: center;
 }
 
 .section-nav-arrow.third-section-up {
@@ -635,11 +637,12 @@ html, body {
 <div class="animated-bg"></div>
 <canvas id="ai-strings"></canvas>
 
-<section class="hero-section">
+<section class="hero-section" id="section-1">
   <div class="logo-container">
     <img src="LOGO.svg" alt="Logo" class="logo" />
     <div class="typewriter" id="typewriter"></div>
   </div>
+  <div class="scroll-arrow" onclick="scrollToNext('section-2')">
   <div class="scroll-arrow" onclick="scrollToNext()">
     <svg viewBox="0 0 24 24">
       <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
@@ -703,11 +706,13 @@ html, body {
       <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
     </svg>
   </div>
-  <div class="dev-intro">
-    <div class="intro-line">Let's build something amazing together.</div>
-    <div class="intro-line">Feel free to reach out and connect.</div>
+  <div>
+    <div class="third-section-text">Let's build something amazing together.</div>
+    <div class="third-section-text">Feel free to reach out and connect.</div>
   </div>
 </section>
+
+
 
 <div class="social-nav">
   <a href="#" class="social-icon">
@@ -1032,40 +1037,72 @@ function scrollToTop() {
 
 // Animate .bg-transition color on scroll
 window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
   const windowH = window.innerHeight;
-  let progress = Math.min(scrollY / windowH, 1);
-  
-  // Calculate progress for third section
-  const thirdSection = document.querySelector('.third-section');
-  const thirdSectionRect = thirdSection.getBoundingClientRect();
-  const thirdSectionProgress = Math.max(0, Math.min(1, 1 - (thirdSectionRect.top / windowH)));
-  
-  // Interpolate between black and #33f
-  const startColor = [0, 0, 0];
-  const endColor = [51, 51, 255];
-  const currentColor = startColor.map((start, i) =>
-    Math.round(start + (endColor[i] - start) * progress)
-  );
-  document.querySelector('.bg-transition').style.background = `rgb(${currentColor.join(',')})`;
+  const scrollY = window.scrollY;
+  const section1End = windowH;
+  const section2End = windowH * 2;
+
+  let bgColor;
+  if (scrollY < section1End) {
+    // Section 1: black to blue
+    const p = scrollY / windowH;
+    bgColor = [
+      Math.round(0 + (51 - 0) * p),
+      Math.round(0 + (51 - 0) * p),
+      Math.round(0 + (255 - 0) * p)
+    ];
+  } else if (scrollY < section2End) {
+    // Section 2: solid blue
+    bgColor = [51, 51, 255];
+  } else {
+    // Section 3: blue to black, based on scroll position within the third section
+    const thirdSection = document.querySelector('.third-section');
+    const sectionTop = thirdSection.offsetTop;
+    const sectionHeight = thirdSection.offsetHeight;
+    const fadeFraction = 0.5; // Fade completes after 50% of the section
+    const p = Math.min(1, Math.max(0, (scrollY - sectionTop) / (sectionHeight * fadeFraction)));
+    bgColor = [
+      Math.round(51 * (1 - p)),
+      Math.round(51 * (1 - p)),
+      Math.round(255 * (1 - p))
+    ];
+  }
+  document.querySelector('.bg-transition').style.background = `rgb(${bgColor.join(',')})`;
 
   // Set arrow color based on background (opposite colors)
-  const arrowColor = progress < 0.5 ? '#33f' : '#000';
+  const arrowColor = (scrollY < section1End || scrollY >= section2End) ? '#33f' : '#000';
   document.body.style.setProperty('--arrow-color', arrowColor);
 
-  // Set social icon color based on background and third section
+  // Set social icon color based on background
   const socialIcons = document.querySelectorAll('.social-icon');
   socialIcons.forEach(icon => {
-    if (thirdSectionProgress > 0.5) {
-      // When in third section, icons should be blue
-      icon.style.filter = 'brightness(0) saturate(100%) invert(24%) sepia(98%) saturate(1900%) hue-rotate(235deg) brightness(97%) contrast(101%)';
-    } else if (progress < 0.5) {
-      // When background is dark, icons should be blue
+    if (scrollY < section1End || scrollY >= section2End) {
+      // On black, icons should be blue
       icon.style.filter = 'brightness(0) saturate(100%) invert(24%) sepia(98%) saturate(1900%) hue-rotate(235deg) brightness(97%) contrast(101%)';
     } else {
-      // When background is blue, icons should be black
+      // On blue, icons should be black
       icon.style.filter = 'brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%)';
     }
+  });
+
+  // Hide strings animation on third section
+  const thirdSection = document.querySelector('.third-section');
+  const aiStrings = document.getElementById('ai-strings');
+  if (thirdSection && aiStrings) {
+    const rect = thirdSection.getBoundingClientRect();
+    const windowH = window.innerHeight;
+    if (rect.top < windowH && rect.bottom > 0) {
+      aiStrings.style.display = 'none';
+    } else {
+      aiStrings.style.display = '';
+    }
+  }
+
+  console.log({
+    scrollY,
+    section2End,
+    windowH,
+    p: Math.min(1, (scrollY - section2End) / windowH)
   });
 });
 
@@ -1077,28 +1114,9 @@ function animateOnScroll() {
     line.classList.toggle('even', i % 2 === 1);
   });
 
-  // Skill lists: keep observer logic
   const skillLists = document.querySelectorAll('.skill-list');
-  const listObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        entry.target.classList.remove('out');
-      } else {
-        entry.target.classList.remove('visible');
-        entry.target.classList.add('out');
-      }
-    });
-  }, { threshold: [0.2, 0.01] });
-  skillLists.forEach(list => {
-    listObserver.observe(list);
-    if (isElementInViewport(list, 0.2)) {
-      list.classList.add('visible');
-      list.classList.remove('out');
-    }
-  });
 
-  // Scroll-scrubbed animation for intro lines
+  // Scroll-scrubbed animation for intro lines and skill lists
   window.addEventListener('scroll', () => {
     const section = document.querySelector('.next-section');
     const rect = section.getBoundingClientRect();
@@ -1118,7 +1136,7 @@ function animateOnScroll() {
     });
     // Scroll-scrubbed animation for skill lists
     skillLists.forEach((list, i) => {
-      const listStagger = i * 0.10; // Earlier, slower
+      const listStagger = i * 0.10; // Stagger for each list
       let listProgress = Math.max(0, Math.min(1, (progress - listStagger) / (1 - listStagger)));
       const fromY = 120;
       // Opacity fades in much earlier and slower
@@ -1128,17 +1146,6 @@ function animateOnScroll() {
   });
   // Trigger once on load
   window.dispatchEvent(new Event('scroll'));
-}
-
-// Helper: check if element is in viewport by threshold
-function isElementInViewport(el, threshold) {
-  const rect = el.getBoundingClientRect();
-  const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-  const elemTop = rect.top;
-  const elemBottom = rect.bottom;
-  const visibleHeight = Math.min(elemBottom, windowHeight) - Math.max(elemTop, 0);
-  const elemHeight = rect.height;
-  return (visibleHeight / elemHeight) >= threshold;
 }
 
 document.addEventListener('DOMContentLoaded', animateOnScroll);
