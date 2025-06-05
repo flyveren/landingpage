@@ -1,6 +1,13 @@
 <html>
 <head>
 <style>
+:root {
+  --main-bg: rgb(0,0,0);
+  --section3-text-opacity: 0;
+  --section3-text-scale: 0.95;
+  --icon-color: #33f;
+}
+
 body {
   margin: 0;
   background: #000;
@@ -333,6 +340,9 @@ body {
   animation: blink 0.7s infinite;
   text-shadow: 0 0 10px rgba(51, 51, 255, 0.5);
   max-width: 80vw;
+  min-height: 1.6em;
+  display: inline-block;
+  line-height: 1.6em;
 }
 
 @keyframes blink {
@@ -460,6 +470,9 @@ body {
 }
 .third-section-text {
   text-align: center;
+  opacity: var(--section3-text-opacity);
+  transform: scale(var(--section3-text-scale));
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 .section-nav-arrow.third-section-up {
@@ -470,7 +483,7 @@ body {
 .dev-intro {
   font-size: 0.80em;
   margin-bottom: 40px;
-  max-width: 500px;
+  max-width: 900px;
   text-align: center;
   color: #000;
   text-shadow: 0 0 10px rgba(51, 51, 255, 0.5);
@@ -486,6 +499,19 @@ body {
 .intro-line.even {
   transform: translateX(-60px);
 }
+.intro-line-toolkit span {
+  display: inline-block;
+  font-size: 1em;
+  margin-top: 40px;
+  line-height: 1.6em;
+  padding-right:20px;
+  padding-left:25px;
+  color: #33f;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: #000;
+  rotate: -1deg;
+}
 
 .skills-lists {
   display: flex;
@@ -496,34 +522,36 @@ body {
 }
 
 .skill-list {
-  background: rgba(20, 20, 20, 0.7);
+  background: rgba(0, 0, 0, 0.85);
   border-radius: 16px;
   padding: 24px 32px;
   min-width: 180px;
-  box-shadow: 0 0 16px #1d1dff22;
-  opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 0.7s cubic-bezier(.77,0,.18,1), transform 0.7s cubic-bezier(.77,0,.18,1);
-  will-change: opacity, transform;
+  box-shadow: 0 0 40px #1d1dff44;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.4s ease;
+  will-change: transform, box-shadow, background;
 }
-.skill-list.visible {
-  opacity: 1;
-  transform: translateY(0);
+
+.skill-list:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 80px #1d1dff88;
+  background: rgba(0, 0, 0, 0.9);
 }
-.skill-list.out {
-  opacity: 0;
-  transform: translateY(80px);
-}
-.skill-list:nth-child(1) { transition-delay: 0.1s; }
-.skill-list:nth-child(2) { transition-delay: 0.3s; }
-.skill-list:nth-child(3) { transition-delay: 0.5s; }
 
 .skill-list h3 {
   color: #33f;
-  font-size: 1.1em;
+  font-size: 1.0em;
   margin-top: 0px;
   margin-bottom: 20px;
   text-align: center;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 10px rgba(51, 51, 255, 0.3);
 }
 
 .skill-list ul {
@@ -531,7 +559,10 @@ body {
   padding: 0;
   margin: 0;
   color: #b3b3ff;
-  font-size: 1em;
+  font-size: 0.8em;
+  line-height: 1.6em;
+  position: relative;
+  z-index: 1;
 }
 
 .skill-list li {
@@ -541,6 +572,8 @@ body {
   align-items: center;
   gap: 10px;
   justify-content: flex-start;
+  position: relative;
+  z-index: 1;
 }
 
 .skill-icon {
@@ -548,10 +581,15 @@ body {
   height: 22px;
   vertical-align: middle;
   display: inline-block;
-  filter: drop-shadow(0 0 2px #1d1dff44);
+  filter: drop-shadow(0 0 4px #1d1dff66);
+  /* No transition or transform here */
 }
-.skill-icon.sql {
-  filter: brightness(0) !important;
+
+.skill-icon.sql,
+.skill-icon.express,
+.skill-icon.flask,
+.skill-icon.github {
+  filter: brightness(0) invert(1) !important;
 }
 
 @media (max-width: 900px) {
@@ -573,7 +611,7 @@ body {
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  background: #000;
+  background: var(--main-bg);
   transition: background 0.2s linear;
 }
 
@@ -586,40 +624,54 @@ html, body {
   scroll-behavior: smooth;
 }
 
-.vertical-nav {
-  display: none; /* Hide the old vertical nav */
-}
-
 .social-nav {
   position: fixed;
-  bottom: 40px;
+  bottom: 0px;
   right: 40px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  align-items: center;
+  gap: 0;
   z-index: 10;
   pointer-events: none;
 }
 
 .social-icon {
+  color: #1d1dff; /* initial blue */
+  pointer-events: auto;
+  margin: 0;
+  transition: transform 0.3s ease;
+}
+.social-icon img {
   width: 32px;
   height: 32px;
-  opacity: 0.7;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: auto;
-  cursor: pointer;
-  filter: brightness(0) invert(1);
+  display: block;
+  transition: filter 0.3s ease;
+}
+
+.social-connector {
+  width: 2px;
+  height: 32px;
+  margin: 0;
+  background: #1d1dff;
+  transition: background 0.3s;
+  pointer-events: none;
+}
+
+.social-connector-bottom {
+  width: 2px;
+  height: 40px; /* Fixed height */
+  margin: 0;
+  background: #1d1dff;
+  transition: background 0.3s;
+  pointer-events: none;
+  position: relative;
+  display: block;
 }
 
 .social-icon:hover {
   opacity: 1;
   transform: translateX(-5px);
-}
-
-.social-icon img {
-  width: 100%;
-  height: 100%;
-  transition: filter 0.3s ease;
 }
 
 .profile-img {
@@ -630,6 +682,8 @@ html, body {
   height: auto;
   z-index: 20;
 }
+
+
 </style>
 </head>
 <body>
@@ -637,28 +691,88 @@ html, body {
 <div class="animated-bg"></div>
 <canvas id="ai-strings"></canvas>
 
+<div class="social-nav">
+  <a href="#" class="social-icon">
+    <!-- Discord SVG -->
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+      <g>
+        <path fill="currentColor" d="M50,0.7C22.4,0.7,0,22.9,0,50.3C0,77.8,22.4,100,50,100s50-22.2,50-49.7C100,22.9,77.6,0.7,50,0.7z M90.5,69.4
+          c-7.2,5.3-14.1,8.5-20.9,10.6c-0.1,0-0.2,0-0.3-0.1c-1.6-2.2-3-4.5-4.3-7c0,0,0,0,0,0c-0.1-0.1,0-0.3,0.2-0.3
+          c2.3-0.9,4.4-1.9,6.5-3.1c0,0,0.1,0,0.1-0.1c0.1-0.1,0.1-0.3-0.1-0.4c-0.4-0.3-0.9-0.7-1.3-1c-0.1-0.1-0.2-0.1-0.3,0
+          c-13.5,6.3-28.4,6.3-42.1,0c-0.1,0-0.2,0-0.3,0c-0.4,0.3-0.9,0.7-1.3,1c0,0-0.1,0-0.1,0.1c-0.1,0.1,0,0.3,0.1,0.4
+          c2.1,1.2,4.3,2.2,6.5,3.1c0,0,0,0,0,0c0.1,0.1,0.2,0.2,0.1,0.4c-1.2,2.4-2.7,4.8-4.3,7c-0.1,0.1-0.2,0.1-0.3,0.1
+          c-6.8-2.1-13.8-5.3-20.9-10.6c-0.1,0-0.1-0.1-0.1-0.2C6.1,53.5,9.1,37.7,20,21.5c0,0,0.1-0.1,0.1-0.1c5.4-2.5,11.2-4.3,17-5.3
+          c0.1,0,0.2,0,0.3,0.1c0.7,1.3,1.6,3,2.2,4.4c6.3-1,12.7-1,19.2,0c0.6-1.3,1.4-3.1,2.1-4.4c0.1-0.1,0.2-0.1,0.3-0.1
+          c5.9,1,11.6,2.8,17,5.3h0c0,0,0.1,0.1,0.1,0.1c9.5,13.9,14.1,29.6,12.4,47.7C90.6,69.2,90.6,69.3,90.5,69.4z"/>
+        <path fill="currentColor" d="M63.1,42.8c-4.2,0-7.5,3.8-7.5,8.4c0,4.7,3.4,8.4,7.5,8.4v0c4.2,0,7.5-3.8,7.5-8.4C70.7,46.6,67.3,42.8,63.1,42.8z"/>
+        <path fill="currentColor" d="M35.2,42.8c-4.2,0-7.5,3.8-7.5,8.4c0,4.7,3.4,8.4,7.5,8.4v0c4.2,0,7.5-3.8,7.5-8.4C42.8,46.6,39.5,42.8,35.2,42.8z"/>
+      </g>
+    </svg>
+  </a>
+  <div class="social-connector"></div>
+  <a href="#" class="social-icon">
+    <!-- GitHub SVG -->
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 97.5" width="32" height="32">
+      <path fill="currentColor" d="M50,0C22.4,0,0,22.4,0,50c0,22.1,14.3,40.8,34.2,47.4c2.5,0.5,3.4-1.1,3.4-2.4c0-1.2,0-5.1-0.1-9.3
+        c-13.9,3-16.8-5.9-16.8-5.9c-2.3-5.8-5.6-7.3-5.6-7.3c-4.5-3.1,0.3-3,0.3-3c5,0.4,7.7,5.2,7.7,5.2c4.5,7.6,11.7,5.4,14.6,4.2
+        c0.4-3.2,1.7-5.4,3.2-6.7c-11.1-1.3-22.8-5.6-22.8-24.7c0-5.5,2-9.9,5.2-13.4c-0.5-1.3-2.2-6.3,0.5-13.2c0,0,4.2-1.3,13.8,5.1
+        c4-1.1,8.3-1.7,12.5-1.7c4.3,0,8.5,0.6,12.5,1.7c9.5-6.5,13.7-5.1,13.7-5.1c2.7,6.9,1,12,0.5,13.2c3.2,3.5,5.1,8,5.1,13.4
+        c0,19.2-11.7,23.4-22.8,24.7c1.8,1.6,3.4,4.6,3.4,9.3c0,6.7-0.1,12.1-0.1,13.7c0,1.3,0.9,2.9,3.4,2.4C85.7,90.8,100,72.1,100,50
+        C100,22.4,77.6,0,50,0"/>
+      <path fill="currentColor" d="M18.7,71.2c-0.1,0.2-0.5,0.3-0.9,0.2c-0.4-0.2-0.6-0.5-0.5-0.8c0.1-0.3,0.5-0.3,0.9-0.2
+        C18.6,70.6,18.9,71,18.7,71.2 M21.2,73.4c-0.2,0.2-0.7,0.1-1-0.2c-0.3-0.3-0.4-0.8-0.1-1c0.2-0.2,0.7-0.1,1,0.2
+        C21.4,72.7,21.4,73.2,21.2,73.4 M22.9,76.2c-0.3,0.2-0.8,0-1.1-0.4c-0.3-0.4-0.3-1,0-1.2c0.3-0.2,0.8,0,1.1,0.4
+        C23.2,75.5,23.2,76,22.9,76.2 M25.7,79.5c-0.3,0.3-0.9,0.2-1.3-0.2c-0.4-0.4-0.6-1-0.3-1.3c0.3-0.3,0.9-0.2,1.3,0.2
+        C25.9,78.6,26,79.2,25.7,79.5 M29.4,80.6c-0.1,0.4-0.7,0.6-1.2,0.4c-0.6-0.2-0.9-0.6-0.8-1c0.1-0.4,0.7-0.6,1.3-0.4
+        C29.2,79.7,29.5,80.2,29.4,80.6 M33.6,81c0,0.4-0.5,0.8-1.1,0.8c-0.6,0-1.1-0.3-1.1-0.7c0-0.4,0.5-0.8,1.1-0.8
+        C33.1,80.3,33.6,80.6,33.6,81 M37.7,80.9c0.1,0.4-0.3,0.8-0.9,0.9c-0.6,0.1-1.1-0.1-1.2-0.5c-0.1-0.4,0.3-0.8,0.9-0.9
+        C37.1,80.2,37.7,80.5,37.7,80.9"/>
+    </svg>
+  </a>
+  <div class="social-connector"></div>
+  <a href="#" class="social-icon">
+    <!-- Instagram SVG -->
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+      <g>
+        <ellipse fill="currentColor" transform="matrix(0.9732 -0.2298 0.2298 0.9732 -10.1688 12.8488)" cx="50.1" cy="50.1" rx="10.7" ry="10.7"/>
+        <path fill="currentColor" d="M77.1,29.4c-1.4-2.7-3.6-4.9-6.2-6.2c-1.1-0.6-2.7-1-5.8-1.3c-3.2-0.3-7.4-0.3-13.5-0.3h-2.9c-6.1,0-10.3,0-13.5,0.3
+          c-3.1,0.2-4.7,0.7-5.8,1.3c-2.7,1.4-4.9,3.6-6.2,6.2c-0.6,1.1-1,2.7-1.3,5.8c-0.3,3.2-0.3,7.4-0.3,13.5v2.9c0,6.1,0,10.3,0.3,13.5
+          c0.2,3.1,0.7,4.7,1.3,5.8c1.4,2.7,3.6,4.9,6.2,6.2c1.1,0.6,2.7,1,5.8,1.3c3.2,0.3,7.4,0.3,13.5,0.3h2.9c6.1,0,10.3,0,13.5-0.3
+          c3.1-0.2,4.7-0.7,5.8-1.3c2.7-1.4,4.9-3.6,6.2-6.2c0.6-1.1,1-2.7,1.3-5.8c0.3-3.2,0.3-7.4,0.3-13.5v-2.9c0-6.1,0-10.3-0.3-13.5
+          C78.2,32.1,77.7,30.5,77.1,29.4z M50.1,67.9c-9.9,0-17.8-8-17.8-17.9s8-17.8,17.8-17.8s17.9,8,17.9,17.8S60,67.9,50.1,67.9z
+           M69.7,35.8c-3,0-5.4-2.4-5.4-5.4s2.4-5.4,5.4-5.4c3,0,5.4,2.4,5.4,5.4S72.6,35.8,69.7,35.8z"/>
+        <path fill="currentColor" d="M50.2,0.8C22.9,0.8,0.9,22.9,0.9,50.1s22.1,49.3,49.3,49.3s49.3-22.1,49.3-49.3S77.4,0.8,50.2,0.8z M83.5,74.1
+          c-2.1,4-5.3,7.3-9.4,9.4c-4.6,2.3-10.6,2.3-22.6,2.3h-2.9c-12,0-18,0-22.6-2.3c-4-2.1-7.3-5.3-9.4-9.4c-2.3-4.6-2.3-10.6-2.3-22.6
+          v-2.9c0-12,0-18,2.3-22.6c2.1-4,5.3-7.3,9.4-9.4c4.6-2.3,10.6-2.3,22.6-2.3h2.9c12,0,18,0,22.6,2.3c4,2.1,7.3,5.3,9.4,9.4
+          c2.3,4.6,2.3,10.6,2.3,22.6v2.9C85.8,63.5,85.8,69.5,83.5,74.1z"/>
+      </g>
+    </svg>
+  </a>
+  <div class="social-connector"></div>
+  <a href="#" class="social-icon">
+    <!-- Facebook SVG -->
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="32" height="32">
+      <g>
+        <path fill="currentColor" d="M18.1,0.3c-9.9,0-17.9,8-17.9,17.9C0.2,28,8.2,36,18.1,36C28,36,36,28,36,18.1C36,8.3,28,0.3,18.1,0.3z M26,12h-2.3
+          c-2.2,0-2.7,1.1-2.7,2.5V18h4.8L25,23h-4v12.7c-1,0.2-1.5,0.3-3,0.3c-1,0-2-0.1-3-0.3V23h-4.5v-5H15v-4c0-4.5,2.9-7,7-7
+          c1.3,0,2.7,0.2,4,0.4V12z"/>
+      </g>
+    </svg>
+  </a>
+  <div class="social-connector-bottom"></div>
+</div>
+
 <section class="hero-section" id="section-1">
   <div class="logo-container">
     <img src="LOGO.svg" alt="Logo" class="logo" />
     <div class="typewriter" id="typewriter"></div>
   </div>
-  <div class="scroll-arrow" onclick="scrollToNext('section-2')">
-  <div class="scroll-arrow" onclick="scrollToNext()">
-    <svg viewBox="0 0 24 24">
-      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-    </svg>
-  </div>
 </section>
 <section class="next-section">
-  <div class="section-nav-arrow up" onclick="scrollToTop()">
-    <svg viewBox="0 0 24 24">
-      <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
-    </svg>
-  </div>
   <div class="dev-intro">
-    <div class="intro-line">Hi, I'm Martin Flyvholm, a passionate developer with experience across multiple languages, frameworks, and tools.</div>
-    <div class="intro-line">I love building scalable solutions and automating workflows.</div>
-    <div class="intro-line">Here's a quick overview of my technical toolkit:</div>
+    <div class="intro-line">Hi, I'm Martin Flyvholm, a passionate developer with experience across multiple languages and frameworks.</div>
+    <div class="intro-line">I love building scalable solutions, automating workflows and AI integrations.</div>
+    <div class="intro-line-toolkit"><span>Here's a quick overview of my toolkit:</span></div>
   </div>
   <div class="skills-lists">
     <div class="skill-list">
@@ -667,6 +781,8 @@ html, body {
         <li><img src="icons/python.svg" alt="Python" class="skill-icon" /> Python</li>
         <li><img src="icons/go.svg" alt="Go" class="skill-icon" /> Go</li>
         <li><img src="icons/javascript.svg" alt="JavaScript" class="skill-icon" /> JavaScript</li>
+        <li><img src="icons/typescript.svg" alt="TypeScript" class="skill-icon" /> TypeScript</li>
+        <li><img src="icons/nodejs.svg" alt="Node.js" class="skill-icon" /> Node.js</li>
         <li><img src="icons/php.svg" alt="PHP" class="skill-icon" /> PHP</li>
         <li><img src="icons/html5.svg" alt="HTML" class="skill-icon" /> HTML</li>
         <li><img src="icons/css3.svg" alt="CSS" class="skill-icon" /> CSS</li>
@@ -678,56 +794,43 @@ html, body {
       <h3 class="skill-list-title">Frameworks</h3>
       <ul>
         <li><img src="icons/reactjs.svg" alt="React" class="skill-icon" /> React</li>
-        <li><img src="icons/expressjs-dark.svg" alt="Express.js" class="skill-icon" /> Express.js</li>
+        <li><img src="icons/nextjs.svg" alt="Next.js" class="skill-icon" /> Next.js</li>
+        <li><img src="icons/vuejs.svg" alt="Vue.js" class="skill-icon" /> Vue.js</li>
+        <li><img src="icons/expressjs-dark.svg" alt="Express.js" class="skill-icon express" /> Express.js</li>
         <li><img src="icons/django.svg" alt="Django" class="skill-icon" /> Django</li>
-        <li><img src="icons/flask-dark.svg" alt="Flask" class="skill-icon" /> Flask</li>
+        <li><img src="icons/flask-dark.svg" alt="Flask" class="skill-icon flask" /> Flask</li>
+        <li><img src="icons/mongodb.svg" alt="MongoDB" class="skill-icon" /> MongoDB</li>
+      </ul>
+    </div>
+    <div class="skill-list">
+      <h3 class="skill-list-title">AI Tools</h3>
+      <ul>
+        <li><img src="icons/openai.svg" alt="OpenAI" class="skill-icon" /> OpenAI</li>
+        <li><img src="icons/tensorflow.svg" alt="TensorFlow" class="skill-icon" /> TensorFlow</li>
+        <li><img src="icons/pytorch.svg" alt="PyTorch" class="skill-icon" /> PyTorch</li>
+        <li><img src="icons/hugging-face.svg" alt="Hugging Face" class="skill-icon" /> Hugging Face</li>
       </ul>
     </div>
     <div class="skill-list">
       <h3 class="skill-list-title">Tools</h3>
       <ul>
         <li><img src="icons/docker.svg" alt="Docker" class="skill-icon" /> Docker</li>
-        <li><img src="icons/github-dark.svg" alt="GitHub" class="skill-icon" /> GitHub</li>
+        <li><img src="icons/github-dark.svg" alt="GitHub" class="skill-icon github" /> GitHub</li>
+        <li><img src="icons/aws.svg" alt="AWS" class="skill-icon" /> AWS</li>
+        <li><img src="icons/vscode.svg" alt="VS Code" class="skill-icon" /> VS Code</li>
         <li><img src="icons/kubernetes.svg" alt="Kubernetes" class="skill-icon" /> Kubernetes</li>
         <li><img src="icons/linux.svg" alt="Linux" class="skill-icon" /> Linux</li>
       </ul>
     </div>
   </div>
-  <div class="section-nav-arrow down" onclick="scrollToNext()">
-    <svg viewBox="0 0 24 24">
-      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-    </svg>
-  </div>
 </section>
 
 <section class="third-section">
-  <div class="section-nav-arrow third-section-up" onclick="scrollToNext()">
-    <svg viewBox="0 0 24 24">
-      <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
-    </svg>
-  </div>
   <div>
     <div class="third-section-text">Let's build something amazing together.</div>
     <div class="third-section-text">Feel free to reach out and connect.</div>
   </div>
 </section>
-
-
-
-<div class="social-nav">
-  <a href="#" class="social-icon">
-    <img src="discord.svg" alt="Discord" />
-  </a>
-  <a href="#" class="social-icon">
-    <img src="github-dark.svg" alt="GitHub" />
-  </a>
-  <a href="#" class="social-icon">
-    <img src="instagram.svg" alt="Instagram" />
-  </a>
-  <a href="#" class="social-icon">
-    <img src="facebook.svg" alt="Facebook" />
-  </a>
-</div>
 
 <img src="profil.png" alt="Profile" class="profile-img" />
 
@@ -1039,71 +1142,68 @@ function scrollToTop() {
 window.addEventListener('scroll', () => {
   const windowH = window.innerHeight;
   const scrollY = window.scrollY;
-  const section1End = windowH;
-  const section2End = windowH * 2;
+  const section1 = document.querySelector('.hero-section');
+  const section2 = document.querySelector('.next-section');
+  const section3 = document.querySelector('.third-section');
+  const section1Top = section1.offsetTop;
+  const section2Top = section2.offsetTop;
+  const section3Top = section3.offsetTop;
+  const section3Height = section3.offsetHeight;
 
   let bgColor;
-  if (scrollY < section1End) {
-    // Section 1: black to blue
-    const p = scrollY / windowH;
+  let section3Progress = 0;
+
+  // Section 1: black to blue
+  if (scrollY < section2Top - windowH/2) {
+    const p = Math.max(0, Math.min(1, (scrollY - section1Top) / windowH));
     bgColor = [
       Math.round(0 + (51 - 0) * p),
       Math.round(0 + (51 - 0) * p),
       Math.round(0 + (255 - 0) * p)
     ];
-  } else if (scrollY < section2End) {
-    // Section 2: solid blue
+  }
+  // Section 2: solid blue
+  else if (scrollY < section3Top - windowH/2) {
     bgColor = [51, 51, 255];
-  } else {
-    // Section 3: blue to black, based on scroll position within the third section
-    const thirdSection = document.querySelector('.third-section');
-    const sectionTop = thirdSection.offsetTop;
-    const sectionHeight = thirdSection.offsetHeight;
-    const fadeFraction = 0.5; // Fade completes after 50% of the section
-    const p = Math.min(1, Math.max(0, (scrollY - sectionTop) / (sectionHeight * fadeFraction)));
+  }
+  // Section 3: blue to black, with cinematic fade
+  else {
+    // Progress from 0 (top of section 3) to 1 (bottom of section 3)
+    section3Progress = Math.max(0, Math.min(1, (scrollY - section3Top + windowH/2) / (section3Height - windowH/2)));
+    // Use ease-in for cinematic effect
+    const p = Math.pow(section3Progress, 1.7);
     bgColor = [
       Math.round(51 * (1 - p)),
       Math.round(51 * (1 - p)),
       Math.round(255 * (1 - p))
     ];
   }
-  document.querySelector('.bg-transition').style.background = `rgb(${bgColor.join(',')})`;
+  document.documentElement.style.setProperty('--main-bg', `rgb(${bgColor.join(',')})`);
 
-  // Set arrow color based on background (opposite colors)
-  const arrowColor = (scrollY < section1End || scrollY >= section2End) ? '#33f' : '#000';
-  document.body.style.setProperty('--arrow-color', arrowColor);
-
-  // Set social icon color based on background
-  const socialIcons = document.querySelectorAll('.social-icon');
-  socialIcons.forEach(icon => {
-    if (scrollY < section1End || scrollY >= section2End) {
-      // On black, icons should be blue
-      icon.style.filter = 'brightness(0) saturate(100%) invert(24%) sepia(98%) saturate(1900%) hue-rotate(235deg) brightness(97%) contrast(101%)';
-    } else {
-      // On blue, icons should be black
-      icon.style.filter = 'brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%)';
-    }
-  });
-
-  // Hide strings animation on third section
-  const thirdSection = document.querySelector('.third-section');
-  const aiStrings = document.getElementById('ai-strings');
-  if (thirdSection && aiStrings) {
-    const rect = thirdSection.getBoundingClientRect();
-    const windowH = window.innerHeight;
-    if (rect.top < windowH && rect.bottom > 0) {
-      aiStrings.style.display = 'none';
-    } else {
-      aiStrings.style.display = '';
-    }
+  // Section 3 text fade/scale
+  if (section3Progress > 0) {
+    document.documentElement.style.setProperty('--section3-text-opacity', section3Progress);
+    document.documentElement.style.setProperty('--section3-text-scale', 0.95 + 0.05 * section3Progress);
+  } else {
+    document.documentElement.style.setProperty('--section3-text-opacity', 0);
+    document.documentElement.style.setProperty('--section3-text-scale', 0.95);
   }
 
-  console.log({
-    scrollY,
-    section2End,
-    windowH,
-    p: Math.min(1, (scrollY - section2End) / windowH)
-  });
+  // Social icon glow/dim
+  const socialIcons = document.querySelectorAll('.social-icon');
+  if (section3Progress > 0.7) {
+    socialIcons.forEach(icon => icon.classList.add('dim'));
+  } else {
+    socialIcons.forEach(icon => icon.classList.remove('dim'));
+  }
+
+  // Hide strings animation on third section
+  const aiStrings = document.getElementById('ai-strings');
+  if (section3Progress > 0.1 && aiStrings) {
+    aiStrings.style.display = 'none';
+  } else if (aiStrings) {
+    aiStrings.style.display = '';
+  }
 });
 
 // Scroll-triggered animation for dev-intro lines and skill lists
@@ -1115,33 +1215,28 @@ function animateOnScroll() {
   });
 
   const skillLists = document.querySelectorAll('.skill-list');
-
-  // Scroll-scrubbed animation for intro lines and skill lists
   window.addEventListener('scroll', () => {
     const section = document.querySelector('.next-section');
     const rect = section.getBoundingClientRect();
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    const sectionHeight = rect.height;
-    // Progress: 0 when section just enters viewport, 1 when section's bottom reaches bottom of viewport
-    let progress = (windowHeight - rect.top) / (sectionHeight * 0.30 + windowHeight);
-    progress = Math.max(0, Math.min(1, progress));
-    // For each line, stagger the progress
+    // Progress: 0 when section just enters viewport, 1 when section's top reaches top of viewport
+    let progress = 1 - Math.max(0, Math.min(1, rect.top / windowHeight));
+    // For each skill list, stagger the progress
+    skillLists.forEach((list, i) => {
+      const stagger = i * 0.12;
+      const listProgress = Math.max(0, Math.min(1, (progress - stagger) / (1 - stagger)));
+      list.style.opacity = listProgress;
+      list.style.transform = `translateY(${40 * (1 - listProgress)}px)`;
+    });
+
+    // Animate intro lines in section 2
     introLines.forEach((line, i) => {
       const lineStagger = i * 0.08;
-      let lineProgress = Math.max(0, Math.min(1, (progress - lineStagger) / (0.7 - lineStagger)));
-      const fromX = (i % 2 === 0) ? 600 : -600;
-      // Opacity fades in almost immediately and tweens slower
-      line.style.opacity = Math.max(0, (lineProgress - 0.01) / 0.7);
-      line.style.transform = `translateX(${fromX * (1 - lineProgress)}px)`;
-    });
-    // Scroll-scrubbed animation for skill lists
-    skillLists.forEach((list, i) => {
-      const listStagger = i * 0.10; // Stagger for each list
-      let listProgress = Math.max(0, Math.min(1, (progress - listStagger) / (1 - listStagger)));
-      const fromY = 120;
-      // Opacity fades in much earlier and slower
-      list.style.opacity = Math.max(0, (listProgress - 0.1) / 0.9);
-      list.style.transform = `translateY(${fromY * (1 - listProgress)}px)`;
+      const lineProgress = Math.max(0, Math.min(1, (progress - lineStagger) / (1 - lineStagger)));
+      line.style.opacity = lineProgress;
+      line.style.transform = line.classList.contains('even')
+        ? `translateX(${-60 * (1 - lineProgress)}px)`
+        : `translateX(${60 * (1 - lineProgress)}px)`;
     });
   });
   // Trigger once on load
@@ -1149,6 +1244,112 @@ function animateOnScroll() {
 }
 
 document.addEventListener('DOMContentLoaded', animateOnScroll);
+
+// Add this at the end of your main <script> block, after all other scroll logic:
+window.addEventListener('scroll', () => {
+  // Calculate scroll progress (0 at top, 1 at bottom)
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollProgress = Math.max(0, Math.min(1, window.scrollY / docHeight));
+  // V-shaped progress: 0 at top, 1 at middle, 0 at bottom
+  const vProgress = 1 - 2 * Math.abs(scrollProgress - 0.5);
+  // Interpolate between blue and black
+  function lerpColor(a, b, t) {
+    return [
+      Math.round(a[0] + (b[0] - a[0]) * t),
+      Math.round(a[1] + (b[1] - a[1]) * t),
+      Math.round(a[2] + (b[2] - a[2]) * t)
+    ];
+  }
+  const blue = [51, 51, 255];
+  const black = [0, 0, 0];
+  const iconRGB = lerpColor(blue, black, 1 - vProgress);
+  document.documentElement.style.setProperty('--icon-color', `rgb(${iconRGB.join(',')})`);
+});
+
+// Social Icons Color Transition
+function lerpColor(a, b, t) {
+  return [
+    Math.round(a[0] + (b[0] - a[0]) * t),
+    Math.round(a[1] + (b[1] - a[1]) * t),
+    Math.round(a[2] + (b[2] - a[2]) * t)
+  ];
+}
+
+function updateSocialIconsColor() {
+  const socialIcons = document.querySelectorAll('.social-icon img');
+  const connectors = document.querySelectorAll('.social-connector');
+  const connectorBottom = document.querySelector('.social-connector-bottom');
+  const scrollPosition = window.scrollY;
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  const totalScrollableHeight = documentHeight - windowHeight;
+  let progress = scrollPosition / totalScrollableHeight;
+  // Clamp progress to [0,1]
+  progress = Math.max(0, Math.min(1, progress));
+
+  // V-shaped curve for blue-black-blue: 0 at top, 1 at middle, 0 at bottom
+  let blueToBlack = 4 * progress * (1 - progress);
+
+  // Calculate the filter values for the transition
+  const brightness = 1 - blueToBlack; // 1 at blue, 0 at black
+  const invert = (1 - blueToBlack) * 13; // 13% at blue, 0% at black
+  const sepia = (1 - blueToBlack) * 100; // 100% at blue, 0% at black
+  const saturate = (1 - blueToBlack) * 7500; // 7500% at blue, 0% at black
+
+  // Update connector colors
+  const blue = [29, 29, 255]; // #1d1dff
+  const black = [0, 0, 0];
+  const color = lerpColor(blue, black, blueToBlack);
+  const colorStr = `rgb(${color.join(',')})`;
+
+  // Set icon color via parent .social-icon using the same colorStr as connectors
+  const iconLinks = document.querySelectorAll('.social-icon');
+  iconLinks.forEach(link => {
+    link.style.color = colorStr;
+  });
+  // Remove filter logic from icon images
+  socialIcons.forEach(icon => {
+    icon.style.filter = '';
+  });
+
+  connectors.forEach(connector => {
+    connector.style.background = colorStr;
+  });
+  if (connectorBottom) {
+    connectorBottom.style.background = colorStr;
+  }
+}
+
+// Add scroll event listener
+window.addEventListener('scroll', updateSocialIconsColor);
+
+// Initial call to set initial colors
+updateSocialIconsColor();
+
+function updateSocialNavConnector() {
+  const nav = document.querySelector('.social-nav');
+  const connector = document.querySelector('.social-nav-connector');
+  if (!nav || !connector) return;
+
+  const icons = nav.querySelectorAll('.social-icon');
+  if (icons.length === 0) return;
+
+  const firstIcon = icons[0];
+  const lastIcon = icons[icons.length - 1];
+  const firstRect = firstIcon.getBoundingClientRect();
+  const lastRect = lastIcon.getBoundingClientRect();
+
+  // Calculate from center of first icon to center of last icon, then to bottom
+  const startY = firstRect.top + firstRect.height / 2 + window.scrollY;
+  const bottomY = window.innerHeight + window.scrollY - 40; // 40px from bottom
+
+  connector.style.top = `${startY}px`;
+  connector.style.height = `${bottomY - startY}px`;
+}
+
+window.addEventListener('resize', updateSocialNavConnector);
+window.addEventListener('scroll', updateSocialNavConnector);
+document.addEventListener('DOMContentLoaded', updateSocialNavConnector);
 </script>
 </body>
 </html>
