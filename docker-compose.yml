@@ -11,6 +11,7 @@ services:
       - "traefik.http.routers.landingpage.rule=Host(`flyver.org`) || Host(`www.flyver.org`)"
       - "traefik.http.routers.landingpage.entrypoints=websecure"
       - "traefik.http.routers.landingpage.tls=true"
+      - "traefik.http.routers.landingpage.tls.certresolver=letsencrypt"
       - "traefik.http.services.landingpage.loadbalancer.server.port=80"
 
 networks:
